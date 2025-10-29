@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Holiday Club Points</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background: linear-gradient(135deg, #fef6e4, #e0f7fa);
+      text-align: center;
+      color: #333;
+    }
+    h1 {
+      color: #2a4d69;
+      text-shadow: 2px 2px #fff;
+      margin-top: 30px;
+    }
+    #chart-container {
+      width: 80%;
+      margin: 30px auto;
+      background-color: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+    table {
+      margin: 20px auto;
+      border-collapse: collapse;
+      width: 70%;
+      background-color: #fff;
+      border-radius: 10px;
+    }
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #f9c784;
+      color: #222;
+    }
+    td:first-child {
+      font-weight: bold;
+    }
+    footer {
+      margin-top: 30px;
+      font-size: 0.9em;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <h1>🏆 Holiday Club Points Leaderboard 🏆</h1>
+
+  <div id="chart-container">
+    <canvas id="pointsChart"></canvas>
+  </div>
+
+  <table>
+    <tr>
+      <th>Team Name</th>
+      <th>Points</th>
+    </tr>
+    {% for team in teams %}
+    <tr>
+      <td><strong>{{ team.name }}</strong></td>
+      <td>{{ team.points }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <footer>
+    Leaders can update points on the <a href="/admin">Admin Page</a>
+  </footer>
+
+  <script>
+    async function loadChart() {
+      const response = await fetch('/data');
+      const data = await response.json();
+      const ctx = document.getElementById('pointsChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: data.labels,
+          datasets: [{
+            label: 'Team Points',
+            data: data.points,
+            backgroundColor: [
+              '#FFADAD', '#FFD6A5', '#FDFFB6',
+              '#CAFFBF', '#9BF6FF', '#A0C4FF'
+            ],
+            borderColor: '#555',
+            borderWidth: 2,
+            borderRadius: 12
+          }]
+        },
+        options: {
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { beginAtZero: true, ticks: { stepSize: 1 } },
+            x: { ticks: { font: { size: 14 } } }
+          }
+        }
+      });
+    }
+    loadChart();
+  </script>
+</body>
+</html>

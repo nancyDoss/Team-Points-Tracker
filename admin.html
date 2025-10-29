@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Holiday Club Admin</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(120deg, #f1f8e9, #e3f2fd);
+      text-align: center;
+      padding: 20px;
+    }
+    h1 { color: #1b4332; }
+    table {
+      margin: 20px auto;
+      border-collapse: collapse;
+      width: 80%;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    th, td { padding: 10px; border-bottom: 1px solid #ddd; }
+    th { background-color: #a8dadc; }
+    input[type=number] {
+      padding: 5px;
+      width: 60px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #1b4332;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+    button:hover { background-color: #2d6a4f; }
+    .danger-btn {
+      background-color: #b02a30;
+    }
+    .danger-btn:hover { background-color: #d32f2f; }
+    form { display: inline; }
+    input[type=text] {
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌟 Admin Panel: Manage Points</h1>
+  
+  <table>
+    <tr>
+      <th>Team Name</th>
+      <th>Points</th>
+      <th>Actions</th>
+    </tr>
+    {% for team in teams %}
+    <tr>
+      <td><strong>{{ team.name }}</strong></td>
+      <td>{{ team.points }}</td>
+      <td>
+        <form action="/add/{{ team.id }}" method="POST">
+          <input type="number" name="points" value="1" min="1">
+          <button type="submit">⬆️ Add</button>
+        </form>
+        <form action="/delete_team/{{ team.id }}" method="POST" 
+              onsubmit="return confirm('Delete this team?');">
+          <button type="submit" class="danger-btn">❌ Delete</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <h2>Add New Team</h2>
+  <form action="/add_team" method="POST">
+    <input type="text" name="name" placeholder="Team name" required>
+    <button type="submit">Add Team</button>
+  </form>
+
+  <h2>Reset All Points (Testing Only)</h2>
+  <form action="/clear_points" method="POST" 
+        onsubmit="return confirm('Are you sure you want to clear all points?');">
+    <button type="submit" class="danger-btn">🧹 Clear Points</button>
+  </form>
+
+  <p style="margin-top:20px;">
+    <a href="/">⬅️ Back to Leaderboard</a>
+  </p>
+</body>
+</html>
