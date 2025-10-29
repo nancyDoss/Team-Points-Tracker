@@ -4,6 +4,20 @@ import sqlite3
 app = Flask(__name__)
 
 
+@app.route('/health')
+def health():
+    """
+    Simple health check endpoint that verifies database connectivity.
+    """
+    try:
+        conn = get_db_connection()
+        conn.execute('SELECT 1').fetchone()
+        conn.close()
+        return jsonify({"status": "healthy", "database": "connected"}), 200
+    except Exception as e:
+        return jsonify({"status": "unhealthy", "database": str(e)}), 500
+
+
 # ----- Database Connection -----
 def get_db_connection():
     """

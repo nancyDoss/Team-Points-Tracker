@@ -21,8 +21,8 @@ perfect for holiday clubs, VBS programs, or classroom competitions.
    cd <repo-directory>
 
 2. Install dependencies:
-
-pip install flask
+   ```bash
+   pip install -r requirements.txt
 
 
 

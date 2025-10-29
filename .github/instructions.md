@@ -49,10 +49,3 @@ Key files:
 - Keep SQL parameterized (current code uses `?` placeholders) — don't switch to string interpolation.
 - If moving templates, ensure Flask finds them (default `templates/` folder) or set `app.template_folder`.
 
-## Next low-risk improvements you may be asked to implement
-
-- Add a `requirements.txt` with a pinned Flask version.
-- Add a simple health-check route (e.g., `/health`) for monitoring.
-- Move UI files to `templates/` if they aren't already located there.
-
-If anything here is unclear or you want the file tuned (shorter/longer or more examples), tell me which section to expand.
